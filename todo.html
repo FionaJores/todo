@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #todo-container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            background: #fff;
+            margin: 5px 0;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="todo-container">
+        <h2>To-Do List</h2>
+        <input type="text" id="task" placeholder="Enter a task">
+        <button onclick="addTask()">Add</button>
+        <ul id="task-list"></ul>
+    </div>
+    <script>
+        const task=[];
+        let c=-1;
+        function addTask() {
+            let taskInput = document.getElementById("task");
+            let taskText = taskInput.value.trim();
+            if(taskText && c==-1){
+                task.push(taskText);
+                taskInput.value = "";
+            }
+            else if(taskText){
+                task.splice(c,1,taskText);
+                taskInput.value = "";
+            }
+            display();
+            c=-1;
+            
+        }
+        function display(){
+            const parent=document.getElementById("task-list");
+            parent.innerHTML=" ";
+            task.forEach((x,index)=>{
+                let li = document.createElement("li");
+                li.innerHTML = `${x} <button onclick="removeTask(${index})">Delete</button> <button onclick="update(${index})">update</button>`;
+                parent.appendChild(li);
+            })
+        }
+        
+        function removeTask(index) {
+            console.log(task[index]);
+            task.splice(index,1);
+            display();
+        }
+
+
+        function update(index){
+            let taskInput = document.getElementById("task");
+            taskInput.value=task[index];
+            c=index;
+
+        }
+    </script>
+</body>
+</html>
